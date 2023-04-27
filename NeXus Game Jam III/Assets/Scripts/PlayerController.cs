@@ -8,20 +8,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float rotationSpeed;
-
+     private Animator playerAnimator;
+    void Start()
+    {
+        playerAnimator = GetComponentInChildren<Animator>();
+    }
     // Update is called once per frame
     void Update()
     {
         Vector2 playerInput = new Vector2(0, 0);
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            playerInput.y = +1;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            playerInput.y = -1;
-        }
         if (Input.GetKey(KeyCode.A))
         {
             playerInput.x = -1;
@@ -40,5 +35,19 @@ public class PlayerController : MonoBehaviour
         transform.position += moveDir * currentSpeed * Time.deltaTime;
 
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
+
+        //Animations
+        if(moveDir == Vector3.zero)
+        {
+            playerAnimator.SetFloat("Speed", 0);
+        }
+        else if(Input.GetKey(KeyCode.LeftShift))
+        {
+            playerAnimator.SetFloat("Speed", 1f);
+        }
+        else
+        {
+            playerAnimator.SetFloat("Speed", 0.4f);
+        }
     }
 }
