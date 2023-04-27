@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
-    private Animator playerAnimator;
-
-
-    public bool isAttacking;
-    public int combo;
-
+    Animator playerAnimator;
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,54 +14,47 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Movement Animations
-        if (playerController.MoveDir() == Vector3.zero)
-        {
-            playerAnimator.SetFloat("Speed", 0f);
-        }
-        else if (Input.GetKey(KeyCode.LeftShift))
-        {
-            playerAnimator.SetFloat("Speed", 1f);
-        }
-        else
-        {
-            playerAnimator.SetFloat("Speed", 0.4f);
-        }
-        AttackCombo();
     }
 
-
-    //Enemy in front Detection
-    public void Attack()
+    //Player Animation
+    public void MovementAnimation(float Speed)
     {
-        Collider[] enemyCol = Physics.OverlapSphere(playerController.attackPoint.position, playerController.attackRange, playerController.enemyLayer);
-
-        foreach (var enemy in enemyCol)
-        {
-            enemy.GetComponent<RagdollController>().RagdollOn();
-        }
+        playerAnimator.SetFloat("Speed",Speed);
+    }
+    public void Attack1()
+    {
+        playerAnimator.SetTrigger("Attack1");
     }
 
-    public void AttackCombo()
+    public void Attack2()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
-        {
-            isAttacking = true;
-            playerAnimator.SetTrigger("" + combo);
-        }
+        playerAnimator.SetTrigger("Attack2");
     }
 
-    public void StartCombo()
+    public void Attack3()
     {
-        isAttacking = false;
-        if(combo < 3)
-        {
-            combo++;
-        }
+        playerAnimator.SetTrigger("Attack3");
     }
-    public void EndCombo()
+
+    //EnemyAnimation
+    public void EnemyMovementAnimation(bool isMoving)
     {
-        isAttacking = false;
-        combo = 0;
+        playerAnimator.SetBool("Movement", isMoving);
+    }
+
+    public void EnemyAttack(int AttackNum)
+    {
+        if(AttackNum == 0)
+        {
+            playerAnimator.SetTrigger("Attack1");
+        }
+        if (AttackNum == 1)
+        {
+            playerAnimator.SetTrigger("Attack2");
+        }
+        if (AttackNum == 2)
+        {
+            playerAnimator.SetTrigger("Attack3");
+        }
     }
 }

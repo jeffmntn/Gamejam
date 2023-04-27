@@ -8,18 +8,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private PlayerAnimator playerAnimator;
 
-    public Transform attackPoint;
-    public float attackRange;
-    public LayerMask enemyLayer;
-
+    private PlayerAnimator playerAnimator;
     private Vector3 moveDir;
 
+     void Awake()
+    {
+        playerAnimator = GetComponentInChildren<PlayerAnimator>();
+    }
     void Update()
     {
         //Movement Input
         Vector2 playerInput = new Vector2(0, 0);
+        if (Input.GetKey(KeyCode.W))
+        {
+            playerInput.y = +1;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            playerInput.y = -1;
+        }
         if (Input.GetKey(KeyCode.A))
         {
             playerInput.x = -1;
@@ -29,31 +37,28 @@ public class PlayerController : MonoBehaviour
             playerInput.x = +1;
         }
 
-        //Attacking
-        if (!playerAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Combo 1") && !playerAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Combo 2") && !playerAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Combo 3"))
+        //Movement Animation Controller
+        if (moveDir == Vector3.zero)
         {
-            //Sprint
-            currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
-
-            //Movement
-            playerInput = playerInput.normalized;
-            moveDir = new Vector3(playerInput.x, 0, playerInput.y);
-            transform.position += moveDir * currentSpeed * Time.deltaTime;
+            playerAnimator.MovementAnimation(0);
         }
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            playerAnimator.MovementAnimation(1f);
+        }
+        else
+        {
+            playerAnimator.MovementAnimation(0.4f);
+        }
+
+        //Sprint
+        currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+
+        //Movement
+        playerInput = playerInput.normalized;
+        moveDir = new Vector3(playerInput.x, 0, playerInput.y);
+        transform.position += moveDir * currentSpeed * Time.deltaTime;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (attackPoint is null)
-            return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
-
-    public Vector3 MoveDir()
-    {
-        return moveDir;
     }
 }

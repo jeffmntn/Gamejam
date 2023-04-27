@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b1780e6be3790444b9b7af0b586dbaa3
+guid: c34b374d53d034f4c97e9b14bc930871
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack Combo 3
+      name: Attack3
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 16
-      lastFrame: 88
+      firstFrame: 0
+      lastFrame: 67
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -56,14 +56,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.7616823
-        functionName: EndCombo
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
