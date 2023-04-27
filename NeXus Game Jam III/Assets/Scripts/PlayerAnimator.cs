@@ -44,7 +44,7 @@ public class PlayerAnimator : MonoBehaviour
 
         foreach (var enemy in enemyCol)
         {
-            Debug.Log("Enemy Detected");
+            enemy.GetComponent<RagdollController>().RagdollOn();
         }
     }
 

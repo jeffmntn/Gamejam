@@ -64,14 +64,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.5016181
+      - time: 0.60747665
         functionName: StartCombo
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.74766356
+      - time: 1
         functionName: EndCombo
         data: 
         objectReferenceParameter: {instanceID: 0}
