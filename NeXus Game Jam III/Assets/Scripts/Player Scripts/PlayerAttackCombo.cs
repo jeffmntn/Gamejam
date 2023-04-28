@@ -9,9 +9,9 @@ public enum ComboState
     Attack2,
     Attack3
 }
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttackCombo : MonoBehaviour
 {
-    private PlayerAnimator playerAnimator;
+    private AnimatorManager animatorManager;
 
     private bool resetTimer;
     [SerializeField]private float defaultComboTimer = 0.4f;
@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     private ComboState currentComboState;
     void Awake()
     {
-        playerAnimator = GetComponentInChildren<PlayerAnimator>();
+        animatorManager = GetComponentInChildren<AnimatorManager>();
     }
 
      void Start()
@@ -46,15 +46,15 @@ public class PlayerAttack : MonoBehaviour
 
             if(currentComboState == ComboState.Attack1)
             {
-                playerAnimator.Attack1();
+                animatorManager.Attack1();
             }
             if (currentComboState == ComboState.Attack2)
             {
-                playerAnimator.Attack2();
+                animatorManager.Attack2();
             }
             if (currentComboState == ComboState.Attack3)
             {
-                playerAnimator.Attack3();
+                animatorManager.Attack3();
             }
         }
 

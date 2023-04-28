@@ -9,12 +9,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentSpeed;
     [SerializeField] private float rotationSpeed;
 
-    private PlayerAnimator playerAnimator;
+    private AnimatorManager animatorManager;
     private Vector3 moveDir;
 
      void Awake()
     {
-        playerAnimator = GetComponentInChildren<PlayerAnimator>();
+        animatorManager = GetComponentInChildren<AnimatorManager>();
     }
     void Update()
     {
@@ -40,15 +40,15 @@ public class PlayerController : MonoBehaviour
         //Movement Animation Controller
         if (moveDir == Vector3.zero)
         {
-            playerAnimator.MovementAnimation(0);
+            animatorManager.MovementAnimation(0);
         }
         else if (Input.GetKey(KeyCode.LeftShift))
         {
-            playerAnimator.MovementAnimation(1f);
+            animatorManager.MovementAnimation(1f);
         }
         else
         {
-            playerAnimator.MovementAnimation(0.4f);
+            animatorManager.MovementAnimation(0.4f);
         }
 
         //Sprint

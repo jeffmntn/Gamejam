@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
 {
 
 
-    private PlayerAnimator enemyAnimator;
+    private AnimatorManager animatorManager;
     private Rigidbody enemyRb;
     private Transform playerTarget;
 
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        enemyAnimator = GetComponentInChildren<PlayerAnimator>();
+        animatorManager = GetComponentInChildren<AnimatorManager>();
         enemyRb = GetComponent<Rigidbody>();
 
         playerTarget = GameObject.FindWithTag("Player").transform;
@@ -52,13 +52,13 @@ public class EnemyController : MonoBehaviour
 
             if(enemyRb.velocity.sqrMagnitude != 0)
             {
-                enemyAnimator.EnemyMovementAnimation(true);
+                animatorManager.EnemyMovementAnimation(true);
             }
         }
         else if (Vector3.Distance(transform.position, playerTarget.position) <= attackDist)
         {
             enemyRb.velocity = Vector3.zero;
-            enemyAnimator.EnemyMovementAnimation(false);
+            animatorManager.EnemyMovementAnimation(false);
 
             followingPlayer = false;
             attackingPlayer = true;
@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour
         currentAtkTime += Time.deltaTime;
         if(currentAtkTime > defaultAtkTime)
         {
-            enemyAnimator.EnemyAttack(Random.Range(0, 3));
+            animatorManager.EnemyAttack(Random.Range(0, 3));
 
             currentAtkTime = 0f;
         }
