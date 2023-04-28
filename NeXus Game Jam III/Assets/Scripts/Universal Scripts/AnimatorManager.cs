@@ -9,10 +9,17 @@ public class AnimatorManager : MonoBehaviour
 
     public float getUpTimer = 2f;
 
+    private EnemyController enemyController;
+
     // Start is called before the first frame update
     void Awake()
     {
         playerAnimator = GetComponent<Animator>();
+        if(gameObject.CompareTag("Enemy"))
+        {
+            enemyController = GetComponentInParent<EnemyController>();
+        }
+
     }
 
     // Update is called once per frame
@@ -46,6 +53,17 @@ public class AnimatorManager : MonoBehaviour
         playerAnimator.SetBool("Movement", isMoving);
     }
 
+    public void DisableMovement()
+    {
+        enemyController.enabled = false;
+        transform.parent.gameObject.layer = 0;
+    }
+
+    public void EnableMovement()
+    {
+        enemyController.enabled = true;
+        transform.parent.gameObject.layer = 6;
+    }
     public void EnemyAttack(int AttackNum)
     {
         if(AttackNum == 0)
