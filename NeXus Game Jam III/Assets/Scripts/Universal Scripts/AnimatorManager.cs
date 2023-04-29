@@ -9,6 +9,7 @@ public class AnimatorManager : MonoBehaviour
 
     public float getUpTimer = 2f;
 
+    private PlayerController playerController;
     private EnemyController enemyController;
 
     // Start is called before the first frame update
@@ -18,6 +19,10 @@ public class AnimatorManager : MonoBehaviour
         if(gameObject.CompareTag("Enemy"))
         {
             enemyController = GetComponentInParent<EnemyController>();
+        }
+        if (gameObject.CompareTag("Player"))
+        {
+            playerController = GetComponentInParent<PlayerController>();
         }
 
     }
@@ -31,6 +36,11 @@ public class AnimatorManager : MonoBehaviour
     public void MovementAnimation(float Speed)
     {
         playerAnimator.SetFloat("Speed",Speed);
+    }
+
+    public void CombatToIdle(bool isCombat)
+    {
+        playerAnimator.SetBool("isCombat", isCombat);
     }
     public void Attack1()
     {
@@ -55,14 +65,29 @@ public class AnimatorManager : MonoBehaviour
 
     public void DisableMovement()
     {
-        enemyController.enabled = false;
-        transform.parent.gameObject.layer = 0;
+        if(enemyController)
+        {
+            enemyController.enabled = false;
+            transform.parent.gameObject.layer = 0;
+        }
+        if(playerController)
+        {
+            playerController.enabled = false;
+        }
     }
 
     public void EnableMovement()
     {
-        enemyController.enabled = true;
-        transform.parent.gameObject.layer = 6;
+
+        if(enemyController)
+        {
+            enemyController.enabled = true;
+            transform.parent.gameObject.layer = 6;
+        }
+        if (playerController)
+        {
+            playerController.enabled = true;
+        }
     }
     public void EnemyAttack(int AttackNum)
     {

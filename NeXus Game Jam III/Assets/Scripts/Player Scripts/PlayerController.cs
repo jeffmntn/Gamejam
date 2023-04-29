@@ -61,4 +61,9 @@ public class PlayerController : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
     }
+
+    public Vector3 moveDirectionValue()
+    {
+        return moveDir;
+    }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public enum ComboState
 {
     None,
@@ -12,15 +11,18 @@ public enum ComboState
 public class PlayerAttackCombo : MonoBehaviour
 {
     private AnimatorManager animatorManager;
-
+    private PlayerController playerController;
+    private TargetSystem targetSystem;
     private bool resetTimer;
     [SerializeField]private float defaultComboTimer = 0.4f;
-    private float currentComboTimer;
+    [SerializeField]private float currentComboTimer;
 
-    private ComboState currentComboState;
+    [SerializeField]private ComboState currentComboState;
     void Awake()
     {
         animatorManager = GetComponentInChildren<AnimatorManager>();
+        playerController = GetComponent<PlayerController>();
+        targetSystem = GetComponent<TargetSystem>();
     }
 
      void Start()
@@ -38,8 +40,10 @@ public class PlayerAttackCombo : MonoBehaviour
     void AttackCombo()
     {
         //Attack Combo
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && currentComboState != ComboState.Attack3)
         {
+            targetSystem.TargetEnemy();
+            animatorManager.CombatToIdle(true);
             currentComboState++;
             resetTimer = true;
             currentComboTimer = defaultComboTimer;
@@ -57,9 +61,8 @@ public class PlayerAttackCombo : MonoBehaviour
                 animatorManager.Attack3();
             }
         }
-
     }
-
+   
     void ResetComboState()
     {
         if(resetTimer)
@@ -68,6 +71,7 @@ public class PlayerAttackCombo : MonoBehaviour
             if(currentComboTimer <= 0)
             {
                 currentComboState = ComboState.None;
+                animatorManager.CombatToIdle(false);
                 resetTimer = false;
                 currentComboTimer = defaultComboTimer;
             }

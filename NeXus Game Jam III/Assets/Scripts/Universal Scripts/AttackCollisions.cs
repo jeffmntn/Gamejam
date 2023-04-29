@@ -14,7 +14,7 @@ public class AttackCollisions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -25,30 +25,30 @@ public class AttackCollisions : MonoBehaviour
 
     void DetectCollision()
     {
-        Collider[] hit = Physics.OverlapSphere(transform.position, radius, layer);
+       Collider[] hit = Physics.OverlapSphere(transform.position, radius, layer);
 
-        if(hit.Length > 0)
+        if (hit.Length > 0)
         {
-            if(isPlayer)
+            if (isPlayer)
             {
                 Vector3 hitSfxPos = hit[0].transform.position;
                 hitSfxPos.y += 1.3f;
-                
-                if(hit[0].transform.forward.y > 0)
+
+                if (hit[0].transform.forward.x > 0)
                 {
                     hitSfxPos.y += 0.3f;
                 }
-                else if (hit[0].transform.forward.y < 0)
+                else if (hit[0].transform.forward.x < 0)
                 {
                     hitSfxPos.y -= 0.3f;
                 }
 
-                 GameObject hitSfxPrefab= Instantiate(hitSfx,hitSfxPos,Quaternion.identity);
-                 Destroy(hitSfxPrefab, 1f);
+                GameObject hitSfxPrefab = Instantiate(hitSfx, hitSfxPos, Quaternion.identity);
+                Destroy(hitSfxPrefab, 1f);
 
-                if(gameObject.CompareTag("Head"))
+                if (gameObject.CompareTag("Head"))
                 {
-                    hit[0].GetComponent<HealthScript>().ApplyDamage(damage,true);
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
                 }
                 else
                 {
@@ -57,6 +57,14 @@ public class AttackCollisions : MonoBehaviour
             }
 
             gameObject.SetActive(false);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, radius);
         }
     }
 }
