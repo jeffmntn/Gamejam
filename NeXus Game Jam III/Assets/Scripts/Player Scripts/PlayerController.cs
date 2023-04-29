@@ -57,8 +57,9 @@ public class PlayerController : MonoBehaviour
         //Movement
         playerInput = playerInput.normalized;
         moveDir = new Vector3(playerInput.x, 0, playerInput.y);
+        Vector3 rotateDir = new Vector3(playerInput.x, 0, 0);
         transform.position += moveDir * currentSpeed * Time.deltaTime;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
+        transform.forward = Vector3.Slerp(transform.forward, rotateDir, rotationSpeed * Time.deltaTime);
 
     }
 

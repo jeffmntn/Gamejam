@@ -12,7 +12,6 @@ public class PlayerAttackCombo : MonoBehaviour
 {
     private AnimatorManager animatorManager;
     private PlayerController playerController;
-    private TargetSystem targetSystem;
     private bool resetTimer;
     [SerializeField]private float defaultComboTimer = 0.4f;
     [SerializeField]private float currentComboTimer;
@@ -22,7 +21,6 @@ public class PlayerAttackCombo : MonoBehaviour
     {
         animatorManager = GetComponentInChildren<AnimatorManager>();
         playerController = GetComponent<PlayerController>();
-        targetSystem = GetComponent<TargetSystem>();
     }
 
      void Start()
@@ -42,7 +40,6 @@ public class PlayerAttackCombo : MonoBehaviour
         //Attack Combo
         if(Input.GetKeyDown(KeyCode.Mouse0) && currentComboState != ComboState.Attack3)
         {
-            targetSystem.TargetEnemy();
             animatorManager.CombatToIdle(true);
             currentComboState++;
             resetTimer = true;

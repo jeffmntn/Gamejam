@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
 {
-    Animator playerAnimator;
+    Animator animator;
     public GameObject leftHand, rightHand, head;
 
     public float getUpTimer = 2f;
@@ -15,7 +15,7 @@ public class AnimatorManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerAnimator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         if(gameObject.CompareTag("Enemy"))
         {
             enemyController = GetComponentInParent<EnemyController>();
@@ -31,36 +31,44 @@ public class AnimatorManager : MonoBehaviour
     void Update()
     {
     }
-
+    //Universal Animation
+    public void DeathAnimation()
+    {
+        animator.SetTrigger("Death");
+    }
+    public void HitAnimation()
+    {
+        animator.SetTrigger("Hit");
+    }
     //Player Animation
     public void MovementAnimation(float Speed)
     {
-        playerAnimator.SetFloat("Speed",Speed);
+        animator.SetFloat("Speed",Speed);
     }
 
     public void CombatToIdle(bool isCombat)
     {
-        playerAnimator.SetBool("isCombat", isCombat);
+        animator.SetBool("isCombat", isCombat);
     }
     public void Attack1()
     {
-        playerAnimator.SetTrigger("Attack1");
+        animator.SetTrigger("Attack1");
     }
 
     public void Attack2()
     {
-        playerAnimator.SetTrigger("Attack2");
+        animator.SetTrigger("Attack2");
     }
 
     public void Attack3()
     {
-        playerAnimator.SetTrigger("Attack3");
+        animator.SetTrigger("Attack3");
     }
 
     //EnemyAnimation
     public void EnemyMovementAnimation(bool isMoving)
     {
-        playerAnimator.SetBool("Movement", isMoving);
+        animator.SetBool("Movement", isMoving);
     }
 
     public void DisableMovement()
@@ -69,6 +77,8 @@ public class AnimatorManager : MonoBehaviour
         {
             enemyController.enabled = false;
             transform.parent.gameObject.layer = 0;
+            transform.parent.gameObject.tag = "Untagged";
+            transform.gameObject.tag = "Untagged";
         }
         if(playerController)
         {
@@ -83,6 +93,8 @@ public class AnimatorManager : MonoBehaviour
         {
             enemyController.enabled = true;
             transform.parent.gameObject.layer = 6;
+            transform.parent.gameObject.tag = "Enemy";
+            transform.gameObject.tag = "Enemy";
         }
         if (playerController)
         {
@@ -93,21 +105,21 @@ public class AnimatorManager : MonoBehaviour
     {
         if(AttackNum == 0)
         {
-            playerAnimator.SetTrigger("Attack1");
+            animator.SetTrigger("Attack1");
         }
         if (AttackNum == 1)
         {
-            playerAnimator.SetTrigger("Attack2");
+            animator.SetTrigger("Attack2");
         }
         if (AttackNum == 2)
         {
-            playerAnimator.SetTrigger("Attack3");
+            animator.SetTrigger("Attack3");
         }
     }
 
     public void EnemyKnockedDown()
     {
-        playerAnimator.SetTrigger("KnockedDown");
+        animator.SetTrigger("KnockedDown");
     }
 
     void GetUp()
@@ -117,7 +129,7 @@ public class AnimatorManager : MonoBehaviour
     IEnumerator EnemyGetUpAfterTime()
     {
         yield return new WaitForSeconds(getUpTimer);
-        playerAnimator.SetTrigger("GetUp");
+        animator.SetTrigger("GetUp");
     }
 
     //Attack Collider Animation Controller

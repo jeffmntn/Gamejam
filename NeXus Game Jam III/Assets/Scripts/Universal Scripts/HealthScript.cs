@@ -9,7 +9,7 @@ public class HealthScript : MonoBehaviour
     private AnimatorManager animatorManager;
     private EnemyController enemyController;
 
-    private bool isPlayerDead;
+    private bool isDead;
     public bool isPlayer;
 
     private void Awake()
@@ -18,16 +18,16 @@ public class HealthScript : MonoBehaviour
     }
     public void ApplyDamage(float damage, bool knockDown)
     {
-        if (isPlayerDead)
+        if (isDead)
             return;
 
         health -= damage;
 
         if(health <=0f)
         {
-            //Death animation
-            isPlayerDead = true;
-
+            animatorManager.DeathAnimation();
+            Destroy(gameObject, 5f);
+            isDead = true;
             if(isPlayer)
             {
 
@@ -48,7 +48,7 @@ public class HealthScript : MonoBehaviour
             {
                 if(Random.Range(0,3) > 1)
                 {
-                    //Hit/Knockback Animation
+                    animatorManager.HitAnimation();
                 }
             }
         }

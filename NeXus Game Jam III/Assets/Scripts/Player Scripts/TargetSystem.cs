@@ -7,9 +7,30 @@ public class TargetSystem : MonoBehaviour
     [SerializeField] private float range = 10f;
     private Transform target;
     [SerializeField]private float rotationSpeed = 5f;
+    private bool targetEnemy;
 
+    private AnimatorManager animatorManager;
+
+    private void Awake()
+    {
+        animatorManager = GetComponentInChildren<AnimatorManager>();
+    }
     void Update()
     {
+        if(Input.GetKey(KeyCode.Mouse1))
+        {
+            targetEnemy = true;
+            animatorManager.CombatToIdle(true);
+        }
+        else
+        {
+            targetEnemy = false;
+            animatorManager.CombatToIdle(false);
+        }
+        if(targetEnemy)
+        {
+            TargetEnemy();
+        }
     }
 
     public void TargetEnemy()

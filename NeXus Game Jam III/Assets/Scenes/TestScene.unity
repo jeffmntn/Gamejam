@@ -245,7 +245,7 @@ MonoBehaviour:
   leftHand: {fileID: 928756184}
   rightHand: {fileID: 1287443970}
   head: {fileID: 1745693081}
-  getUpTimer: 2
+  getUpTimer: 1
 --- !u!95 &81519562
 Animator:
   serializedVersion: 5
@@ -426,15 +426,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212326274}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0.49, y: 3.5, z: -5}
+  m_LocalRotation: {x: 0.12446736, y: 0, z: 0, w: 0.9922237}
+  m_LocalPosition: {x: 0.49, y: 2.6, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 371135945}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 14.3, y: 0, z: 0}
 --- !u!1 &219420131
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 3.5, z: -5}
+  m_FollowOffset: {x: 0, y: 2.6, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1563,7 +1563,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   radius: 0.15
-  damage: 2
+  damage: 5
   isPlayer: 1
   isEnemy: 0
   hitSfx: {fileID: 4133409869339665176, guid: 438ed9e7a8921e24ba39e44f9d0f770b, type: 3}
@@ -3054,7 +3054,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   radius: 0.2
-  damage: 2
+  damage: 10
   isPlayer: 1
   isEnemy: 0
   hitSfx: {fileID: 4133409869339665176, guid: 438ed9e7a8921e24ba39e44f9d0f770b, type: 3}
@@ -3187,8 +3187,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0.49, y: 3.5, z: -5}
+  m_LocalRotation: {x: 0.12446736, y: 0, z: 0, w: 0.9922237}
+  m_LocalPosition: {x: 0.49, y: 2.6, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3666,7 +3666,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   radius: 0.15
-  damage: 2
+  damage: 5
   isPlayer: 1
   isEnemy: 0
   hitSfx: {fileID: 4133409869339665176, guid: 438ed9e7a8921e24ba39e44f9d0f770b, type: 3}
@@ -3888,6 +3888,7 @@ GameObject:
   - component: {fileID: 1482338996}
   - component: {fileID: 1482338998}
   - component: {fileID: 1482339001}
+  - component: {fileID: 1482339002}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -3968,8 +3969,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a76579ddb4310c4cbcea023bb2ab31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
-  rotationSpeed: 5
+  range: 3
+  rotationSpeed: 10000
+--- !u!114 &1482339002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482338995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ab47018fc6324439fd10d90844056c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  isPlayer: 1
 --- !u!1 &1603646286
 GameObject:
   m_ObjectHideFlags: 0
