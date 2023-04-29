@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     private Transform playerTarget;
 
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float enemyRadius = 5f;
     public float attackDist = 1f;
     private float chasePlayerAfterAtk = 1f;
 
@@ -41,29 +42,32 @@ public class EnemyController : MonoBehaviour
 
     void FollowTarget()
     {
-        if(!followingPlayer)
+        if (!followingPlayer)
         {
             return;
         }
-        if(Vector3.Distance(transform.position,playerTarget.position) > attackDist)
         {
-            transform.LookAt(playerTarget);
-            enemyRb.velocity = transform.forward * moveSpeed;
-
-            if(enemyRb.velocity.sqrMagnitude != 0)
+            if (Vector3.Distance(transform.position, playerTarget.position) > attackDist)
             {
-                animatorManager.EnemyMovementAnimation(true);
+                transform.LookAt(playerTarget);
+                enemyRb.velocity = transform.forward * moveSpeed;
+
+                if (enemyRb.velocity.sqrMagnitude != 0)
+                {
+                    animatorManager.EnemyMovementAnimation(true);
+                }
+            }
+            else if (Vector3.Distance(transform.position, playerTarget.position) <= attackDist)
+            {
+                enemyRb.velocity = Vector3.zero;
+                animatorManager.EnemyMovementAnimation(false);
+                followingPlayer = false;
+                attackingPlayer = true;
             }
         }
-        else if (Vector3.Distance(transform.position, playerTarget.position) <= attackDist)
-        {
-            enemyRb.velocity = Vector3.zero;
-            animatorManager.EnemyMovementAnimation(false);
-
-            followingPlayer = false;
-            attackingPlayer = true;
-        }
     }
+
+      
 
     void AttackTarget()
     {
@@ -84,5 +88,11 @@ public class EnemyController : MonoBehaviour
             attackingPlayer = false;
             followingPlayer = true;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position,enemyRadius);
     }
 }

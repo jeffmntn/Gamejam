@@ -132,6 +132,7 @@ public class AnimatorManager : MonoBehaviour
         animator.SetTrigger("GetUp");
     }
 
+    //Event Contoller
     //Attack Collider Animation Controller
 
 

@@ -8,13 +8,22 @@ public class HealthScript : MonoBehaviour
 
     private AnimatorManager animatorManager;
     private EnemyController enemyController;
-
+    private UiManager uiManager;
     private bool isDead;
     public bool isPlayer;
 
     private void Awake()
     {
         animatorManager = GetComponentInChildren<AnimatorManager>();
+        if(isPlayer)
+        {
+            uiManager = GameObject.FindWithTag("UiManager").GetComponent<UiManager>();
+        }
+    }
+    private void Update()
+    {
+        if(isPlayer)
+        uiManager.DisplayHealth(health);
     }
     public void ApplyDamage(float damage, bool knockDown)
     {
@@ -22,7 +31,6 @@ public class HealthScript : MonoBehaviour
             return;
 
         health -= damage;
-
         if(health <=0f)
         {
             animatorManager.DeathAnimation();

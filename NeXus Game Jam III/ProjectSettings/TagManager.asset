@@ -8,6 +8,8 @@ TagManager:
   - Head
   - LeftHand
   - RightHand
+  - HealthBar
+  - UiManager
   layers:
   - Default
   - TransparentFX
