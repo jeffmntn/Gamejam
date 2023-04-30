@@ -10,7 +10,7 @@ public class AnimatorManager : MonoBehaviour
     public float getUpTimer = 2f;
 
     private PlayerController playerController;
-    private EnemyController enemyController;
+    private EnemyAI enemyAi;
 
     // Start is called before the first frame update
     void Awake()
@@ -18,7 +18,7 @@ public class AnimatorManager : MonoBehaviour
         animator = GetComponent<Animator>();
         if(gameObject.CompareTag("Enemy"))
         {
-            enemyController = GetComponentInParent<EnemyController>();
+            enemyAi = GetComponentInParent<EnemyAI>();
         }
         if (gameObject.CompareTag("Player"))
         {
@@ -50,32 +50,26 @@ public class AnimatorManager : MonoBehaviour
     {
         animator.SetBool("isCombat", isCombat);
     }
-    public void Attack1()
+    public void Attack(string attackNum)
     {
-        animator.SetTrigger("Attack1");
-    }
-
-    public void Attack2()
-    {
-        animator.SetTrigger("Attack2");
-    }
-
-    public void Attack3()
-    {
-        animator.SetTrigger("Attack3");
+        animator.SetTrigger(attackNum);
     }
 
     //EnemyAnimation
     public void EnemyMovementAnimation(bool isMoving)
     {
-        animator.SetBool("Movement", isMoving);
+        animator.SetBool("isMoving", isMoving);
     }
 
+    public void EnemyFleeAnimation(bool isFleeing)
+    {
+        animator.SetBool("isFleeing", isFleeing);
+    }
     public void DisableMovement()
     {
-        if(enemyController)
+        if(enemyAi)
         {
-            enemyController.enabled = false;
+            enemyAi.enabled = false;
             transform.parent.gameObject.layer = 0;
             transform.parent.gameObject.tag = "Untagged";
             transform.gameObject.tag = "Untagged";
@@ -89,9 +83,9 @@ public class AnimatorManager : MonoBehaviour
     public void EnableMovement()
     {
 
-        if(enemyController)
+        if(enemyAi)
         {
-            enemyController.enabled = true;
+            enemyAi.enabled = true;
             transform.parent.gameObject.layer = 6;
             transform.parent.gameObject.tag = "Enemy";
             transform.gameObject.tag = "Enemy";

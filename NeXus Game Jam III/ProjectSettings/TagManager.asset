@@ -10,6 +10,8 @@ TagManager:
   - RightHand
   - HealthBar
   - UiManager
+  - Side Scrolling Camera
+  - 3rd Person Camera
   layers:
   - Default
   - TransparentFX

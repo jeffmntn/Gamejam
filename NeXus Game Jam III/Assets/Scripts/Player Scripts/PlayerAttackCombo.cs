@@ -11,67 +11,138 @@ public enum ComboState
 public class PlayerAttackCombo : MonoBehaviour
 {
     private AnimatorManager animatorManager;
-    private PlayerController playerController;
-    private bool resetTimer;
-    [SerializeField]private float defaultComboTimer = 0.4f;
-    [SerializeField]private float currentComboTimer;
 
-    [SerializeField]private ComboState currentComboState;
+    Vector3 mousePos;
+    //Target Lock
+    [SerializeField] private float radius;
+    [SerializeField] private float lockRange;
+    [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private bool enemyIsLocked;
+    [SerializeField] private GameObject currentTarget;
+    [SerializeField] private float rotationSpeed;
+    private RaycastHit hit;
+
+    //Combo
+    [SerializeField] private float attackMoveSpeed;
+    [SerializeField] private int comboCount = 0;
+    [SerializeField] private float defaultComboDur = 3f;
+    [SerializeField] private float comboWindow = 0.7f;
+    private float comboTimer = 0.0f;
+    [SerializeField]private float comboDuration;
+    private int maxComboCount = 4;
+    private bool comboStarted = false;
+
+
     void Awake()
     {
         animatorManager = GetComponentInChildren<AnimatorManager>();
-        playerController = GetComponent<PlayerController>();
     }
 
-     void Start()
+    void Start()
     {
-        currentComboTimer = 0;
-        currentComboState = ComboState.None;
+        comboDuration = defaultComboDur;
     }
     // Update is called once per frame
     void Update()
     {
         AttackCombo();
-        ResetComboState();
+        ComboDurationStart();
     }
 
+    void LockOnTarget()
+    {
+        GameObject previousTarget = currentTarget;
+        //Get Mouse Position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        float distance = 0f;
+        if (plane.Raycast(ray, out distance))
+        {
+            mousePos = ray.GetPoint(distance);
+        }
+        //Target Lock Enemy Based on Mouse Position - Range
+        enemyIsLocked = Physics.SphereCast(transform.position, radius, mousePos - transform.position, out hit, lockRange, targetLayer);
+
+        if (enemyIsLocked)
+        {
+            //Set Target
+            currentTarget = hit.collider.gameObject;
+            //Rotate to Target
+            Quaternion targetRotation = Quaternion.LookRotation(currentTarget.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+
+            currentTarget = previousTarget;
+        }
+    }
     void AttackCombo()
     {
-        //Attack Combo
-        if(Input.GetKeyDown(KeyCode.Mouse0) && currentComboState != ComboState.Attack3)
+        if (Input.GetButtonDown("Fire1"))
         {
-            animatorManager.CombatToIdle(true);
-            currentComboState++;
-            resetTimer = true;
-            currentComboTimer = defaultComboTimer;
+            LockOnTarget();
+            comboStarted = true;
+            if (comboCount < maxComboCount && comboTimer <= 0.0f)
+            {
+                comboCount++;
+                comboTimer = comboWindow;
+                animatorManager.Attack("Attack" + comboCount.ToString());
 
-            if(currentComboState == ComboState.Attack1)
-            {
-                animatorManager.Attack1();
+                //Add movement when attacking
+                Rigidbody rb = GetComponent<Rigidbody>();
+                rb.velocity = transform.forward * attackMoveSpeed;
             }
-            if (currentComboState == ComboState.Attack2)
+            else if (comboCount == maxComboCount)
             {
-                animatorManager.Attack2();
+                comboCount = 0;
+                comboDuration = defaultComboDur;
             }
-            if (currentComboState == ComboState.Attack3)
+        }
+
+        if (comboTimer > 0.0f)
+        {
+            comboTimer -= Time.deltaTime;
+        }
+    }
+    void ComboDurationStart()
+    {
+        if (comboStarted)
+        {
+            comboDuration -= Time.deltaTime;
+            if (comboDuration <= 0 )
             {
-                animatorManager.Attack3();
+                comboCount = 0;
+                comboDuration = defaultComboDur;
+                comboStarted = false;
             }
         }
     }
-   
-    void ResetComboState()
+    void OnDrawGizmos()
     {
-        if(resetTimer)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.color = Color.red;
+
+        // Calculate mouse position in the game world
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        float distance = 0f;
+        if (plane.Raycast(ray, out distance))
         {
-            currentComboTimer -= Time.deltaTime;
-            if(currentComboTimer <= 0)
-            {
-                currentComboState = ComboState.None;
-                animatorManager.CombatToIdle(false);
-                resetTimer = false;
-                currentComboTimer = defaultComboTimer;
-            }
+            mousePos = ray.GetPoint(distance);
+        }
+
+        // Draw SphereCast
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, radius, mousePos - transform.position, out hit, lockRange, targetLayer))
+        {
+            Gizmos.DrawLine(transform.position, hit.point);
+            Gizmos.DrawWireSphere(hit.point, radius);
+        }
+        else
+        {
+            Gizmos.DrawLine(transform.position, transform.position + (mousePos - transform.position).normalized * lockRange);
         }
     }
 }

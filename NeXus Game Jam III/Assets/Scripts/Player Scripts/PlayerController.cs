@@ -9,12 +9,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float currentSpeed;
     [SerializeField] private float rotationSpeed;
 
-    private AnimatorManager animatorManager;
+    private Camera mainCamera;
+    private AnimatorManager animationManager;
     private Vector3 moveDir;
+    Vector3 playerForward;
 
-     void Awake()
+    void Awake()
     {
-        animatorManager = GetComponentInChildren<AnimatorManager>();
+        animationManager = GetComponentInChildren<AnimatorManager>();
+        mainCamera = Camera.main;
     }
     void Update()
     {
@@ -38,17 +41,17 @@ public class PlayerController : MonoBehaviour
         }
 
         //Movement Animation Controller
-        if (moveDir == Vector3.zero)
+        if (playerForward == Vector3.zero)
         {
-            animatorManager.MovementAnimation(0);
+            animationManager.MovementAnimation(0);
         }
         else if (Input.GetKey(KeyCode.LeftShift))
         {
-            animatorManager.MovementAnimation(1f);
+            animationManager.MovementAnimation(1f);
         }
         else
         {
-            animatorManager.MovementAnimation(0.4f);
+            animationManager.MovementAnimation(0.4f);
         }
 
         //Sprint
@@ -56,15 +59,12 @@ public class PlayerController : MonoBehaviour
 
         //Movement
         playerInput = playerInput.normalized;
-        moveDir = new Vector3(playerInput.x, 0, playerInput.y);
-        Vector3 rotateDir = new Vector3(playerInput.x, 0, 0);
-        transform.position += moveDir * currentSpeed * Time.deltaTime;
-        transform.forward = Vector3.Slerp(transform.forward, rotateDir, rotationSpeed * Time.deltaTime);
 
-    }
+        Vector3 cameraForward = Vector3.Scale(mainCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 moveDir = (playerInput.y * cameraForward + playerInput.x * mainCamera.transform.right).normalized;
+        playerForward = moveDir * currentSpeed;
+        transform.position += playerForward * Time.deltaTime;
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
-    public Vector3 moveDirectionValue()
-    {
-        return moveDir;
     }
 }
