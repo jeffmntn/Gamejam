@@ -13,10 +13,12 @@ public class AttackCollisions : MonoBehaviour
     public bool isPlayer, isEnemy;
     public GameObject hitSfx;
     public PlayerAttackCombo playerAttack;
+    EyeGlassPowerup eyeglassPowerup;
     // Start is called before the first frame update
     void Awake()
     {
         playerAttack = GetComponentInParent<PlayerAttackCombo>();
+        eyeglassPowerup = GetComponentInParent<EyeGlassPowerup>();
     }
 
     // Update is called once per frame
@@ -61,7 +63,18 @@ public class AttackCollisions : MonoBehaviour
                     hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
                 }
             }
+            if(isEnemy)
+            {
+                if(hit[0].GetComponent<EyeGlassPowerup>().isHolding && hit[0].GetComponent<EyeGlassPowerup>().powerUpPoints > 0)
+                {
+                    hit[0].GetComponent<EyeGlassPowerup>().Dodge(true);
 
+                }
+                if(hit[0].GetComponent<EyeGlassPowerup>().powerUpPoints <= 0 || !hit[0].GetComponent<EyeGlassPowerup>().isHolding)
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                }
+            }
             gameObject.SetActive(false);
         }
     }

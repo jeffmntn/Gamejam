@@ -25,9 +25,11 @@ public class EnemyAI : MonoBehaviour
     private float nextAtkTime;
     [SerializeField] private float defaultAttackModeTimer = 2f;
     private float attackModeTimer;
-    [SerializeField] private float maxDistanceToPlayer;
+    [SerializeField] private float randomFleeDistance;
+    [SerializeField] private float maxFleeDistance;
     [SerializeField] private float fleePlayerAfterAtk = 1f;
-
+    [SerializeField]float distToPlayer;
+    public Vector3 backPos;
 
     void Awake()
     {
@@ -56,7 +58,7 @@ public class EnemyAI : MonoBehaviour
             case EnemyBehavior.Idle:
                 animatorManager.EnemyMovementAnimation(false);
                 attackModeTimer -= Time.deltaTime;
-                if(attackModeTimer <= 0)
+                if (attackModeTimer <= 0)
                 {
                     SetBehavior(EnemyBehavior.Chase);
                 }
@@ -78,8 +80,8 @@ public class EnemyAI : MonoBehaviour
 
             case EnemyBehavior.Attack:
                 if (playerTarget != null)
-                {  
-                    if(Vector3.Distance(transform.position, playerTarget.position) > attackDist)
+                {
+                    if (Vector3.Distance(transform.position, playerTarget.position) > attackDist)
                     {
                         SetBehavior(EnemyBehavior.Chase);
                     }
@@ -87,15 +89,17 @@ public class EnemyAI : MonoBehaviour
                     if (nextAtkTime < 0 && !attackedOnce)
                     {
                         animatorManager.EnemyAttack(Random.Range(0, 3));
-                        attackedOnce = true;              
+                        attackedOnce = true;
                     }
-                    else if(attackedOnce)
+                    else if (attackedOnce)
                     {
                         fleePlayerAfterAtk -= Time.deltaTime;
                     }
-                    if(fleePlayerAfterAtk <=0)
+                    if (fleePlayerAfterAtk <= 0)
                     {
-                        maxDistanceToPlayer = Random.Range(3, 6);
+                        randomFleeDistance = Random.Range(3, 6);
+
+                        backPos = playerTarget.position;
                         SetBehavior(EnemyBehavior.Flee);
                     }
                 }
@@ -105,13 +109,14 @@ public class EnemyAI : MonoBehaviour
                 if (playerTarget != null)
                 {
                     transform.LookAt(playerTarget);
-                    float distToPlayer = Vector3.Distance(transform.position, playerTarget.position);
-                    if (distToPlayer < maxDistanceToPlayer)
+                    distToPlayer = Vector3.Distance(transform.position, backPos);
+                    //lastplayerposition
+                    if (distToPlayer < randomFleeDistance)
                     {
                         transform.Translate(-Vector3.forward * fleeSpeed * Time.deltaTime);
                         animatorManager.EnemyFleeAnimation(true);
                     }
-                    else if (distToPlayer >= maxDistanceToPlayer)
+                    else if (distToPlayer >= randomFleeDistance)
                     {
                         animatorManager.EnemyFleeAnimation(false);
                         nextAtkTime = defaultNextAtkTime;

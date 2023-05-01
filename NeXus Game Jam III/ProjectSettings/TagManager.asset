@@ -12,6 +12,7 @@ TagManager:
   - UiManager
   - Side Scrolling Camera
   - 3rd Person Camera
+  - PowerupBar
   layers:
   - Default
   - TransparentFX

@@ -56,6 +56,10 @@ public class AnimatorManager : MonoBehaviour
         DisableMovement();
     }
 
+    public void DodgeAnimation()
+    {
+        animator.SetTrigger("Dodge");
+    }
     //EnemyAnimation
     public void EnemyMovementAnimation(bool isMoving)
     {
@@ -157,11 +161,15 @@ public class AnimatorManager : MonoBehaviour
 
     void HeadColliderOn()
     {
+        if (head == null)
+            return;
         head.SetActive(true);
     }
 
     void HeadColliderOff()
     {
+        if (head == null)
+            return;
         if (head.activeInHierarchy)
         {
             head.SetActive(false);
