@@ -7,7 +7,7 @@ public class HealthScript : MonoBehaviour
     public float health = 100f;
 
     private AnimatorManager animatorManager;
-    private EnemyController enemyController;
+    private EnemyAI enemyAi;
     private UiManager uiManager;
     private bool isDead;
     public bool isPlayer;
@@ -46,7 +46,7 @@ public class HealthScript : MonoBehaviour
         if(!isPlayer)
         {
             if(knockDown)
-            {
+            {               
                 animatorManager.EnemyKnockedDown();
             }
             else

@@ -42,7 +42,6 @@ public class EnemyAI : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(maxDistanceToPlayer);
         EnemyAIBehavior();
     }
     public void SetBehavior(EnemyBehavior newBehavior)
