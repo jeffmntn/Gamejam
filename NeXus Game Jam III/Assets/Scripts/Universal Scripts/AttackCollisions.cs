@@ -7,14 +7,16 @@ public class AttackCollisions : MonoBehaviour
 
     public LayerMask layer;
     public float radius = 1f;
-    public float damage = 2f;
+    public float damage = 10f;
+    public float knockDownDamage = 15f;
 
     public bool isPlayer, isEnemy;
     public GameObject hitSfx;
+    public PlayerAttackCombo playerAttack;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        playerAttack = GetComponentInParent<PlayerAttackCombo>();
     }
 
     // Update is called once per frame
@@ -46,12 +48,16 @@ public class AttackCollisions : MonoBehaviour
                 GameObject hitSfxPrefab = Instantiate(hitSfx, hitSfxPos, Quaternion.identity);
                 Destroy(hitSfxPrefab, 1f);
 
-                if (gameObject.CompareTag("Head"))
+                if (playerAttack.comboCount >=3 && playerAttack.comboCount <= 4)
                 {
-                    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                    if(Random.Range(0,3) >= 1)
+                    {
+                        hit[0].GetComponent<HealthScript>().ApplyDamage(knockDownDamage, true);
+                    }             
                 }
-                else
+                if(playerAttack.comboCount >= 0 && playerAttack.comboCount <= 2)
                 {
+                    Debug.Log("Damage");
                     hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
                 }
             }

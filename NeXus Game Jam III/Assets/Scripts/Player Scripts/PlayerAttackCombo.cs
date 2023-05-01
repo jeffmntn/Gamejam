@@ -24,10 +24,10 @@ public class PlayerAttackCombo : MonoBehaviour
 
     //Combo
     [SerializeField] private float attackMoveSpeed;
-    [SerializeField] private int comboCount = 0;
+    public int comboCount = 0;
     [SerializeField] private float defaultComboDur = 3f;
     [SerializeField] private float comboWindow = 0.7f;
-    private float comboTimer = 0.0f;
+    [SerializeField]private float comboTimer = 0.0f;
     [SerializeField]private float comboDuration;
     private int maxComboCount = 4;
     private bool comboStarted = false;
@@ -79,7 +79,7 @@ public class PlayerAttackCombo : MonoBehaviour
     }
     void AttackCombo()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             LockOnTarget();
             comboStarted = true;

@@ -53,6 +53,7 @@ public class AnimatorManager : MonoBehaviour
     public void Attack(string attackNum)
     {
         animator.SetTrigger(attackNum);
+        DisableMovement();
     }
 
     //EnemyAnimation

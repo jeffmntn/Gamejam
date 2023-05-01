@@ -47,17 +47,11 @@ public class HealthScript : MonoBehaviour
         {
             if(knockDown)
             {
-                if(Random.Range(0,2) > 0)
-                {
-                    animatorManager.EnemyKnockedDown();
-                }
+                animatorManager.EnemyKnockedDown();
             }
             else
             {
-                if(Random.Range(0,3) > 1)
-                {
-                    animatorManager.HitAnimation();
-                }
+                    animatorManager.HitAnimation();                
             }
         }
     }

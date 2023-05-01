@@ -6,7 +6,6 @@ public class CameraTrigger : MonoBehaviour
 {
     CinemachineVirtualCamera sideScrollCam;
     CinemachineVirtualCamera thirdPersonCam;
-
     void Awake()
     {
         sideScrollCam = GameObject.FindGameObjectWithTag("Side Scrolling Camera").GetComponent<CinemachineVirtualCamera>();
@@ -14,10 +13,17 @@ public class CameraTrigger : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        sideScrollCam.Priority = 0;
+        if(other.gameObject.tag == "Player")
+        {
+            sideScrollCam.Priority = 0;
+        }
+        
     }
     private void OnTriggerExit(Collider other)
     {
-        sideScrollCam.Priority = 2;
+        if (other.gameObject.tag == "Player")
+        {
+            sideScrollCam.Priority = 2;
+        }
     }
 }
