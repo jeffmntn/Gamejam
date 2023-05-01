@@ -11,13 +11,18 @@ public class HealthScript : MonoBehaviour
     private UiManager uiManager;
     private bool isDead;
     public bool isPlayer;
-
+    private EyeGlassPowerup powerup;
     private void Awake()
-    {
+    {     
         animatorManager = GetComponentInChildren<AnimatorManager>();
         if(isPlayer)
         {
             uiManager = GameObject.FindWithTag("UiManager").GetComponent<UiManager>();
+        }
+        else
+        {
+            powerup = GameObject.FindWithTag("Player").GetComponent<EyeGlassPowerup>();
+            enemyAi = GetComponent<EnemyAI>();
         }
     }
     private void Update()
@@ -28,24 +33,28 @@ public class HealthScript : MonoBehaviour
     public void ApplyDamage(float damage, bool knockDown)
     {
         if (isDead)
-            return;
-
+            return;    
         health -= damage;
         if(health <=0f)
         {
-            animatorManager.DeathAnimation();
-            Destroy(gameObject, 5f);
             isDead = true;
-            if(isPlayer)
+            if (isPlayer)
             {
-
+                animatorManager.DeathAnimation();
+            }
+            else
+            {
+                powerup.AddPoints(20);
+                animatorManager.DeathAnimation();
+                Destroy(gameObject, 5f);              
             }
             return;
         }
 
         if(!isPlayer)
         {
-            if(knockDown)
+            enemyAi.SetBehavior(EnemyBehavior.Idle);
+            if (knockDown)
             {               
                 animatorManager.EnemyKnockedDown();
             }

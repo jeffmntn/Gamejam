@@ -35,19 +35,9 @@ public class AttackCollisions : MonoBehaviour
         {
             if (isPlayer)
             {
-                Vector3 hitSfxPos = hit[0].transform.position;
-                hitSfxPos.y += 1.3f;
-
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitSfxPos.y += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitSfxPos.y -= 0.3f;
-                }
-
+                Vector3 hitSfxPos = transform.position;                
                 GameObject hitSfxPrefab = Instantiate(hitSfx, hitSfxPos, Quaternion.identity);
+                hitSfxPrefab.transform.SetParent(hit[0].GetComponent<Transform>());
                 Destroy(hitSfxPrefab, 1f);
 
                 if (playerAttack.comboCount >=3 && playerAttack.comboCount <= 4)

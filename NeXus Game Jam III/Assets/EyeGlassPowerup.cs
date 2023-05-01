@@ -47,15 +47,17 @@ public class EyeGlassPowerup : MonoBehaviour
         if (!isDodging)
             return;
 
-        // Check if the hold time has been reached
         if (powerUpPoints > 0)
         {
-            // Activate the powerup
             animatorManager.DodgeAnimation();
         }
         else if (powerUpPoints <= 0)
         {
             isDodging = false;
         }
+    }
+    public void AddPoints(float point)
+    {
+        powerUpPoints += point;
     }
 }

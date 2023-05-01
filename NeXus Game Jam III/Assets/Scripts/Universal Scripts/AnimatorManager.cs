@@ -10,6 +10,7 @@ public class AnimatorManager : MonoBehaviour
     public float getUpTimer = 2f;
 
     private PlayerController playerController;
+    private PlayerAttackCombo playerAttack;
     private EnemyAI enemyAi;
 
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class AnimatorManager : MonoBehaviour
         if (gameObject.CompareTag("Player"))
         {
             playerController = GetComponentInParent<PlayerController>();
+            playerAttack = GetComponentInParent<PlayerAttackCombo>();
         }
 
     }
@@ -39,6 +41,44 @@ public class AnimatorManager : MonoBehaviour
     public void HitAnimation()
     {
         animator.SetTrigger("Hit");
+    }
+    public void DisableMovement()
+    {
+        if (enemyAi)
+        {
+            enemyAi.enabled = false;
+            transform.parent.gameObject.layer = 0;
+            transform.parent.gameObject.tag = "Untagged";
+            transform.gameObject.tag = "Untagged";
+        }
+        if (playerController)
+        {
+            playerController.enabled = false;
+        }
+    }
+
+    public void EnableMovement()
+    {
+
+        if (enemyAi)
+        {
+            enemyAi.enabled = true;
+            transform.parent.gameObject.layer = 6;
+            transform.parent.gameObject.tag = "Enemy";
+            transform.gameObject.tag = "Enemy";
+        }
+        if (playerController)
+        {
+            playerController.enabled = true;
+        }
+    }
+
+    public void DisableAttack()
+    {
+        if (playerController)
+        {
+            playerAttack.enabled = false;
+        }
     }
     //Player Animation
     public void MovementAnimation(float Speed)
@@ -70,36 +110,7 @@ public class AnimatorManager : MonoBehaviour
     {
         animator.SetBool("isFleeing", isFleeing);
     }
-    public void DisableMovement()
-    {
-        if(enemyAi)
-        {
-            enemyAi.enabled = false;
-            transform.parent.gameObject.layer = 0;
-            transform.parent.gameObject.tag = "Untagged";
-            transform.gameObject.tag = "Untagged";
-        }
-        if(playerController)
-        {
-            playerController.enabled = false;
-        }
-    }
 
-    public void EnableMovement()
-    {
-
-        if(enemyAi)
-        {
-            enemyAi.enabled = true;
-            transform.parent.gameObject.layer = 6;
-            transform.parent.gameObject.tag = "Enemy";
-            transform.gameObject.tag = "Enemy";
-        }
-        if (playerController)
-        {
-            playerController.enabled = true;
-        }
-    }
     public void EnemyAttack(int AttackNum)
     {
         if(AttackNum == 0)

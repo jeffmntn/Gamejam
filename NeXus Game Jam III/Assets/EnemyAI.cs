@@ -132,4 +132,16 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
     }
+     void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag != "Player")
+        {
+            SetBehavior(EnemyBehavior.Idle);
+            animatorManager.EnemyFleeAnimation(false);
+            nextAtkTime = defaultNextAtkTime;
+            fleePlayerAfterAtk = 1f;
+            attackedOnce = false;
+            attackModeTimer = defaultAttackModeTimer;
+        }
+    }
 }

@@ -13,6 +13,7 @@ TagManager:
   - Side Scrolling Camera
   - 3rd Person Camera
   - PowerupBar
+  - AreaLock
   layers:
   - Default
   - TransparentFX

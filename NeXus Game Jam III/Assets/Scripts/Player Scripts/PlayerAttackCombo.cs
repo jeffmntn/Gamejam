@@ -124,7 +124,6 @@ public class PlayerAttackCombo : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
         Gizmos.color = Color.red;
 
-        // Calculate mouse position in the game world
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane plane = new Plane(Vector3.up, Vector3.zero);
         float distance = 0f;
@@ -133,7 +132,6 @@ public class PlayerAttackCombo : MonoBehaviour
             mousePos = ray.GetPoint(distance);
         }
 
-        // Draw SphereCast
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, radius, mousePos - transform.position, out hit, lockRange, targetLayer))
         {
