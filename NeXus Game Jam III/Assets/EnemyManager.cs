@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject[] enemiesInArea;
-    public Collider nextAreaCollider;
+    public Collider areaCollider;
     public GameObject nextAreaSpawner;
-    bool allEnemiesDead;
+    [SerializeField]bool allEnemiesDead;
     void Start()
     {
-        nextAreaCollider.isTrigger = false;
+        areaCollider.isTrigger = false;
     }
 
     void Update()
@@ -33,11 +33,19 @@ public class EnemyManager : MonoBehaviour
         // Can Proceed
         if (allEnemiesDead)
         {
-            nextAreaCollider.isTrigger = true;
-            if (nextAreaSpawner != null)
-            {
-                nextAreaSpawner.SetActive(true);
-            }
+            areaCollider.isTrigger = true;
         }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            SpawnEnemies();
+        }
+    }
+
+    void SpawnEnemies()
+    {
+            nextAreaSpawner.SetActive(true);       
     }
 }

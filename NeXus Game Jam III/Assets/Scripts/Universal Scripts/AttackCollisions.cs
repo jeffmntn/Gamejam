@@ -49,7 +49,6 @@ public class AttackCollisions : MonoBehaviour
                 }
                 if(playerAttack.comboCount >= 0 && playerAttack.comboCount <= 2)
                 {
-                    Debug.Log("Damage");
                     hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
                 }
             }

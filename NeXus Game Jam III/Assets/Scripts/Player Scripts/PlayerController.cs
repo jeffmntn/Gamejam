@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class PlayerController : MonoBehaviour
     private AnimatorManager animationManager;
     private Vector3 moveDir;
     Vector3 playerForward;
-
     void Awake()
     {
         animationManager = GetComponentInChildren<AnimatorManager>();
@@ -66,5 +66,11 @@ public class PlayerController : MonoBehaviour
         transform.position += playerForward * Time.deltaTime;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
 
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
     }
+
 }

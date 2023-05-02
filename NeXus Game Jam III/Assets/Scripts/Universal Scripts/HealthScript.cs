@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
-    public float health = 100f;
-
+    public float defaultHealth = 100;
+    private float currentHealth;
     private AnimatorManager animatorManager;
     private EnemyAI enemyAi;
     private UiManager uiManager;
@@ -25,17 +25,29 @@ public class HealthScript : MonoBehaviour
             enemyAi = GetComponent<EnemyAI>();
         }
     }
+    private void Start()
+    {  
+        if(!isPlayer)
+        {
+            currentHealth = defaultHealth;
+        }
+    }
     private void Update()
     {
         if(isPlayer)
-        uiManager.DisplayHealth(health);
+        {
+            uiManager.DisplayHealth(GameManager.currentHealth);
+            currentHealth = GameManager.currentHealth;
+            Debug.Log("Health current Scene:" + currentHealth);
+        }     
+
     }
     public void ApplyDamage(float damage, bool knockDown)
     {
         if (isDead)
-            return;    
-        health -= damage;
-        if(health <=0f)
+            return;
+        GameManager.currentHealth -= damage;
+        if(currentHealth <=0f)
         {
             isDead = true;
             if (isPlayer)

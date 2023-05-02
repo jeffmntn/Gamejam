@@ -6,11 +6,18 @@ public class GameManager : MonoBehaviour
     public EnemyManager[] enemyManagers;
     public GameObject firstAreaSpawner;
     bool allAreasCleared;
+    public HealthScript playerHealth;
+    public static float currentHealth = 100;
+
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
         foreach (EnemyManager enemyManager in enemyManagers)
         {
-            enemyManager.nextAreaCollider.isTrigger = false;
+            enemyManager.areaCollider.isTrigger = false;
             if (enemyManager.nextAreaSpawner != null)
             {
                 enemyManager.nextAreaSpawner.SetActive(false);
@@ -25,10 +32,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Health in all scene:" + currentHealth);
         allAreasCleared = true;
         foreach (EnemyManager enemyManager in enemyManagers)
         {
-            if (!enemyManager.nextAreaCollider.isTrigger)
+            if (!enemyManager.areaCollider.isTrigger)
             {
                 allAreasCleared = false;
                 break;
