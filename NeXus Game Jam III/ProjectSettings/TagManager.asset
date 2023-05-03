@@ -14,6 +14,7 @@ TagManager:
   - 3rd Person Camera
   - PowerupBar
   - AreaLock
+  - ProceedText
   layers:
   - Default
   - TransparentFX

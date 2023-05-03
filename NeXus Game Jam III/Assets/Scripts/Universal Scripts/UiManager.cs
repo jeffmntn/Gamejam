@@ -8,10 +8,12 @@ public class UiManager : MonoBehaviour
 {
     private Image healthBar;
     private Image powerupBar;
+    private Text proceedTxt;
     private void Awake()
     {
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<Image>();
         powerupBar = GameObject.FindWithTag("PowerupBar").GetComponent<Image>();
+        proceedTxt = GameObject.FindWithTag("ProceedText").GetComponent<Text>();
     }
     public void DisplayerPowerup(float powerupValue)
     {
@@ -31,5 +33,14 @@ public class UiManager : MonoBehaviour
             healthValue = 0;
         }
         healthBar.fillAmount = healthValue;
+    }
+
+    public void DisableProceed()
+    {
+        proceedTxt.enabled = false;
+    }
+    public void EnableProceed()
+    {
+        proceedTxt.enabled = true;
     }
 }

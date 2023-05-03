@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
     public GameObject firstAreaSpawner;
     bool allAreasCleared;
 
-
+    private UiManager uiManager;
     private void Awake()
     {
-        
+        uiManager = GameObject.FindWithTag("UiManager").GetComponent<UiManager>();
     }
     void Start()
     {
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
             if (enemyManager.nextAreaSpawner != null)
             {
                 enemyManager.nextAreaSpawner.SetActive(false);
+
             }
         }
 

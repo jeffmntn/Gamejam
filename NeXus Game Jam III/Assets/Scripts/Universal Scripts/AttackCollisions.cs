@@ -42,7 +42,7 @@ public class AttackCollisions : MonoBehaviour
 
                 if (playerAttack.comboCount >=3 && playerAttack.comboCount <= 4)
                 {
-                    if(Random.Range(0,3) >= 1)
+                    if(Random.Range(0,2) >= 1)
                     {
                         hit[0].GetComponent<HealthScript>().ApplyDamage(knockDownDamage, true);
                     }             
