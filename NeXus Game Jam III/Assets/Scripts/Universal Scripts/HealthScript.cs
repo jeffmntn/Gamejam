@@ -5,13 +5,14 @@ using UnityEngine;
 public class HealthScript : MonoBehaviour
 {
     public float defaultHealth = 100;
-    private float currentHealth;
+    [SerializeField]private float currentHealth;
     private AnimatorManager animatorManager;
     private EnemyAI enemyAi;
     private UiManager uiManager;
     private bool isDead;
     public bool isPlayer;
     private EyeGlassPowerup powerup;
+    public static float playerHealth = 100;
     private void Awake()
     {     
         animatorManager = GetComponentInChildren<AnimatorManager>();
@@ -31,14 +32,13 @@ public class HealthScript : MonoBehaviour
         {
             currentHealth = defaultHealth;
         }
+
     }
     private void Update()
     {
         if(isPlayer)
         {
-            uiManager.DisplayHealth(GameManager.currentHealth);
-            currentHealth = GameManager.currentHealth;
-            Debug.Log("Health current Scene:" + currentHealth);
+            uiManager.DisplayHealth(playerHealth);
         }     
 
     }
@@ -46,25 +46,19 @@ public class HealthScript : MonoBehaviour
     {
         if (isDead)
             return;
-        GameManager.currentHealth -= damage;
-        if(currentHealth <=0f)
-        {
-            isDead = true;
-            if (isPlayer)
-            {
-                animatorManager.DeathAnimation();
-            }
-            else
-            {
-                powerup.AddPoints(20);
-                animatorManager.DeathAnimation();
-                Destroy(gameObject, 5f);              
-            }
-            return;
-        }
 
         if(!isPlayer)
         {
+            currentHealth -= damage;
+            if (currentHealth <= 0f)
+            {
+                isDead = true;
+                powerup.AddPoints(20);
+                animatorManager.DeathAnimation();
+                Destroy(gameObject, 5f);
+                return;
+            }
+
             enemyAi.SetBehavior(EnemyBehavior.Idle);
             if (knockDown)
             {               
@@ -73,6 +67,14 @@ public class HealthScript : MonoBehaviour
             else
             {
                     animatorManager.HitAnimation();                
+            }
+        }
+        else
+        {
+            playerHealth -= damage;
+            if (playerHealth <= 0f)
+            {
+                 animatorManager.DeathAnimation();               
             }
         }
     }

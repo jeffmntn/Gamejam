@@ -6,8 +6,7 @@ public class GameManager : MonoBehaviour
     public EnemyManager[] enemyManagers;
     public GameObject firstAreaSpawner;
     bool allAreasCleared;
-    public HealthScript playerHealth;
-    public static float currentHealth = 100;
+
 
     private void Awake()
     {
@@ -32,7 +31,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Health in all scene:" + currentHealth);
         allAreasCleared = true;
         foreach (EnemyManager enemyManager in enemyManagers)
         {
