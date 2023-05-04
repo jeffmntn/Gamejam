@@ -88,7 +88,7 @@ public class PlayerAttackCombo : MonoBehaviour
                 comboCount++;
                 comboTimer = comboWindow;
                 animatorManager.Attack("Attack" + comboCount.ToString());
-
+                //play Attack audio
                 //Add movement when attacking
                 Rigidbody rb = GetComponent<Rigidbody>();
                 rb.velocity = transform.forward * attackMoveSpeed;

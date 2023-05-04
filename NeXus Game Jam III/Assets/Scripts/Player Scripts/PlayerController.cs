@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -65,12 +65,6 @@ public class PlayerController : MonoBehaviour
         playerForward = moveDir * currentSpeed;
         transform.position += playerForward * Time.deltaTime;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotationSpeed * Time.deltaTime);
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIndex + 1);
-        }
     }
 
 }

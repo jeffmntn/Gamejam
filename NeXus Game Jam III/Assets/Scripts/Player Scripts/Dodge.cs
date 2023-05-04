@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EyeGlassPowerup : MonoBehaviour
+public class Dodge : MonoBehaviour
 {
     public float powerUpPoints;
-    public bool isHolding;
 
     private AnimatorManager animatorManager;
     private UiManager uiManager;
+    public float dashDistance;
+    public bool isDodging;
     private void Awake()
     {
         animatorManager = GetComponentInChildren<AnimatorManager>();
@@ -24,40 +25,33 @@ public class EyeGlassPowerup : MonoBehaviour
     void Update()
     {
         uiManager.DisplayerPowerup(powerUpPoints);
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
         {
-            isHolding = true;
-            if(powerUpPoints >= 0)
-            {
-                powerUpPoints -= 10 * Time.deltaTime;
-            }
-            else
-            {
-                powerUpPoints = 0;
-            }
-        }
-        else
-        {
-            isHolding = false;
+            IsDodge();
         }
 
     }
-    public void Dodge(bool isDodging)
+    public void IsDodge()
     {
-        if (!isDodging)
-            return;
-
         if (powerUpPoints > 0)
         {
+            isDodging = true;
+            powerUpPoints -= 10;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.velocity = -transform.forward * dashDistance;
             animatorManager.DodgeAnimation();
         }
         else if (powerUpPoints <= 0)
         {
             isDodging = false;
+            powerUpPoints = 0;
         }
     }
     public void AddPoints(float point)
     {
-        powerUpPoints += point;
+        if (powerUpPoints <= 100)
+        {
+            powerUpPoints += point;
+        }
     }
 }

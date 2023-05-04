@@ -11,7 +11,7 @@ public class HealthScript : MonoBehaviour
     private UiManager uiManager;
     private bool isDead;
     public bool isPlayer;
-    private EyeGlassPowerup powerup;
+    private Dodge dodge;
     public static float playerHealth = 100;
     private void Awake()
     {     
@@ -22,7 +22,7 @@ public class HealthScript : MonoBehaviour
         }
         else
         {
-            powerup = GameObject.FindWithTag("Player").GetComponent<EyeGlassPowerup>();
+            dodge = GameObject.FindWithTag("Player").GetComponent<Dodge>();
             enemyAi = GetComponent<EnemyAI>();
         }
     }
@@ -50,10 +50,11 @@ public class HealthScript : MonoBehaviour
         if(!isPlayer)
         {
             currentHealth -= damage;
+            animatorManager.HitSfx();
             if (currentHealth <= 0f)
             {
                 isDead = true;
-                powerup.AddPoints(20);
+                dodge.AddPoints(20);
                 animatorManager.DeathAnimation();
                 Destroy(gameObject, 5f);
                 return;
@@ -66,7 +67,7 @@ public class HealthScript : MonoBehaviour
             }
             else
             {
-                    animatorManager.HitAnimation();                
+                    animatorManager.HitAnimation();
             }
         }
         else

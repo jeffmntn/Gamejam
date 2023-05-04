@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public EnemyManager[] enemyManagers;
     public GameObject firstAreaSpawner;
-    bool allAreasCleared;
+    public bool allAreasCleared;
 
     private UiManager uiManager;
     private void Awake()
@@ -41,11 +42,15 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+    }
 
+    public void NextLevel()
+    {
         if (allAreasCleared)
         {
-            Debug.Log("All areas is cleared");
-            //Next scene 
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex + 1);
+            
         }
     }
 }

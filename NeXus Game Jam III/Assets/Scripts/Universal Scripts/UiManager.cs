@@ -9,11 +9,21 @@ public class UiManager : MonoBehaviour
     private Image healthBar;
     private Image powerupBar;
     private Text proceedTxt;
+    public Text interact;
     private void Awake()
     {
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<Image>();
         powerupBar = GameObject.FindWithTag("PowerupBar").GetComponent<Image>();
         proceedTxt = GameObject.FindWithTag("ProceedText").GetComponent<Text>();
+        interact = GameObject.FindWithTag("Interact").GetComponent<Text>();
+    }
+    public void InteractEnter()
+    {
+        interact.enabled = true;
+    }
+    public void InteractExit()
+    {
+        interact.enabled = false;
     }
     public void DisplayerPowerup(float powerupValue)
     {
