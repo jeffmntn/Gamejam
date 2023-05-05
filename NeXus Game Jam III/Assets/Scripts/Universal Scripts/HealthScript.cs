@@ -12,7 +12,7 @@ public class HealthScript : MonoBehaviour
     private bool isDead;
     public bool isPlayer;
     private Dodge dodge;
-    public static float playerHealth = 100;
+    public static float playerHealth = 1;
     public GameObject potion;
     private void Awake()
     {     
@@ -81,7 +81,8 @@ public class HealthScript : MonoBehaviour
             playerHealth -= damage;
             if (playerHealth <= 0f)
             {
-                 animatorManager.DeathAnimation();               
+                 animatorManager.DeathAnimation();
+                uiManager.YouLose();
             }
         }
     }

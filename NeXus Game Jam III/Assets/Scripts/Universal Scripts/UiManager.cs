@@ -9,13 +9,19 @@ public class UiManager : MonoBehaviour
     private Image healthBar;
     private Image powerupBar;
     private Text proceedTxt;
-    public Text interact;
+    public Image interact;
+    public GameObject loseObj;
     private void Awake()
     {
         healthBar = GameObject.FindWithTag("HealthBar").GetComponent<Image>();
         powerupBar = GameObject.FindWithTag("PowerupBar").GetComponent<Image>();
         proceedTxt = GameObject.FindWithTag("ProceedText").GetComponent<Text>();
-        interact = GameObject.FindWithTag("Interact").GetComponent<Text>();
+        interact = GameObject.FindWithTag("Interact").GetComponent<Image>();
+        loseObj.GetComponent<GameObject>();
+    }
+    public void YouLose()
+    {
+        loseObj.SetActive(true);
     }
     public void InteractEnter()
     {
