@@ -13,6 +13,7 @@ public class HealthScript : MonoBehaviour
     public bool isPlayer;
     private Dodge dodge;
     public static float playerHealth = 100;
+    public GameObject potion;
     private void Awake()
     {     
         animatorManager = GetComponentInChildren<AnimatorManager>();
@@ -24,6 +25,7 @@ public class HealthScript : MonoBehaviour
         {
             dodge = GameObject.FindWithTag("Player").GetComponent<Dodge>();
             enemyAi = GetComponent<EnemyAI>();
+            potion.GetComponent<GameObject>();
         }
     }
     private void Start()
@@ -55,6 +57,10 @@ public class HealthScript : MonoBehaviour
             {
                 isDead = true;
                 dodge.AddPoints(20);
+                if(Random.Range(0,2) < 1)
+                {
+                    Instantiate(potion, transform.position + transform.up * 1, Quaternion.identity);
+                }
                 animatorManager.DeathAnimation();
                 Destroy(gameObject, 5f);
                 return;

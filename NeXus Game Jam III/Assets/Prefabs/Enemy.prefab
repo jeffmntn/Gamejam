@@ -81,6 +81,7 @@ MonoBehaviour:
   defaultHealth: 100
   currentHealth: 0
   isPlayer: 0
+  potion: {fileID: 7197837352701559143, guid: a4f8b24ae84ca3545b40155b7dc0d584, type: 3}
 --- !u!114 &4794064560832174327
 MonoBehaviour:
   m_ObjectHideFlags: 0
